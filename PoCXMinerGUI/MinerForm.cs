@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -715,7 +716,13 @@ namespace PoCXMinerGUI
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/PoC-Consortium/pocx/wiki");
+            
+            var ps = new ProcessStartInfo("https://github.com/PoC-Consortium/pocx/wiki")
+            {
+                UseShellExecute = true,
+                Verb = "open"
+            };
+            Process.Start(ps);
         }
 
         private void AboutToolStripMenuItem2_Click(object sender, EventArgs e)

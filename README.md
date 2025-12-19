@@ -43,13 +43,13 @@ Download the latest installer from [Releases](https://github.com/PoC-Consortium/
 
 ### Requirements
 
-- Visual Studio 2019 or later
-- .NET Framework 4.7.2 SDK
+- Visual Studio 2022 or later
+- .NET 10
 - [Inno Setup 6](https://jrsoftware.org/isinfo.php) (for creating installer)
 
 ### Build
 
-1. Open `PoCXWinGUI.sln` in Visual Studio
+1. Open `PoCXWinGUI.slnx` in Visual Studio
 2. Restore NuGet packages
 3. Build in Release configuration
 

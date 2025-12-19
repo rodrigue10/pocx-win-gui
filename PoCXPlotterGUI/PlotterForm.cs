@@ -5,9 +5,10 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
 using System.Management;
-using OpenCL.Net;
+using OpenCL.NetCore;
 using System.Linq;
 using PoCX.Common;
+using System.Diagnostics;
 
 namespace PoCXPlotterGUI
 {
@@ -504,15 +505,15 @@ namespace PoCXPlotterGUI
                 if (IsPoCXPlotFileName(openFileDialog.FileName))
                 {
                     Plotfile temp = ParsePlotFileName(openFileDialog.FileName);
-                    
+
                     txt_Address.Text = HexStringToPoCXAddress(temp.account);
                     rb_PlotSizeValue.Checked = true;
                     nud_PlotSize.Value = (decimal)temp.warps;
                     cmb_Units.SelectedIndex = 0;
                     nud_Compression.Value = (decimal)temp.compression;
                     chk_FixedSeed.Checked = true;
-                    txt_Seed.Text = temp.seed;                    
-                    lv_OutputPaths.Items.Clear();                    
+                    txt_Seed.Text = temp.seed;
+                    lv_OutputPaths.Items.Clear();
                     AddFolder(Path.GetDirectoryName(openFileDialog.FileName));
                 }
             }
@@ -619,12 +620,22 @@ namespace PoCXPlotterGUI
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/PoC-Consortium/pocx/wiki");
+            var ps = new ProcessStartInfo("https://github.com/PoC-Consortium/pocx/wiki")
+            {
+                UseShellExecute = true,
+                Verb = "open"
+            };
+            Process.Start(ps);
         }
 
         private void AboutToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/PoC-Consortium/pocx/blob/master/pocx_miner/README.md");
+            var ps = new ProcessStartInfo("https://github.com/PoC-Consortium/pocx/blob/master/pocx_miner/README.md")
+            {
+                UseShellExecute = true,
+                Verb = "open"
+            };
+            Process.Start(ps);
         }
 
         private int GetSectorSize(string path)
@@ -722,7 +733,8 @@ namespace PoCXPlotterGUI
                 if (MessageBox.Show("Plotting in progress, are you sure you want to exit?", BUTTON_TEXT_STOP, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     _plotterProcess?.Stop();
-                } else
+                }
+                else
                 {
                     e.Cancel = true;
                 }
@@ -862,7 +874,8 @@ namespace PoCXPlotterGUI
 
         private void RemovePath_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem row in lv_OutputPaths.SelectedItems){
+            foreach (ListViewItem row in lv_OutputPaths.SelectedItems)
+            {
                 lv_OutputPaths.Items.Remove(row);
             }
         }
@@ -1045,6 +1058,50 @@ namespace PoCXPlotterGUI
             }
         }
 
+        private async System.Threading.Tasks.Task CheckForUpdatesAsyncTest(bool silent = false)
+        {
+            try
+            {
+                using (var updateManager = new PlotterUpdateManager())
+                {
+                    var updateInfo = await updateManager.CheckForUpdatesAsync();
+
+                    // Update last check time
+                    Properties.Settings.Default.LastUpdateCheck = DateTime.UtcNow.ToString("o");
+                    Properties.Settings.Default.Save();
+
+                    // Always show dialog (allows downgrades and reinstalls, not just upgrades)
+                    if (!silent)
+                    {
+                        using (var dialog = new UpdateDialog(updateInfo, updateManager))
+                        {
+                            dialog.ShowDialog(this);
+                        }
+                    }
+                    else if (updateInfo.UpdateAvailable)
+                    {
+                        // Silent mode only shows dialog if update is available
+                        using (var dialog = new UpdateDialog(updateInfo, updateManager))
+                        {
+                            dialog.ShowDialog(this);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (!silent)
+                {
+                    MessageBox.Show(
+                        $"Failed to check for updates: {ex.Message}",
+                        "Update Check Failed",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                }
+            }
+        }
+
         private async void MenuItemCheckForUpdates_Click(object sender, EventArgs e)
         {
             await CheckForUpdatesAsync(silent: false);
@@ -1146,6 +1203,11 @@ namespace PoCXPlotterGUI
             }
 
             return config;
+        }
+
+        async private void checkForUpdatesTestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await CheckForUpdatesAsyncTest(silent: false);
         }
     }
 }

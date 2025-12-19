@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Management;
-using OpenCL.Net;
+using OpenCL.NetCore;
 
 namespace PoCXPlotterGUI
 {
@@ -106,11 +106,11 @@ namespace PoCXPlotterGUI
                 for (int j = 0; j < Math.Min(MAX_GPU_COUNT, gpus.Length); j++)
                 {
                     // Only support GPU type
-                    uint devicetype = Cl.GetDeviceInfo(gpus[j], OpenCL.Net.DeviceInfo.Type, out error).CastTo<uint>();
+                    uint devicetype = Cl.GetDeviceInfo(gpus[j], OpenCL.NetCore.DeviceInfo.Type, out error).CastTo<uint>();
                     if (devicetype != OPENCL_DEVICE_TYPE_GPU) continue;
 
-                    string gpuName = Cl.GetDeviceInfo(gpus[j], OpenCL.Net.DeviceInfo.Name, out error).ToString();
-                    uint computeUnits = Cl.GetDeviceInfo(gpus[j], OpenCL.Net.DeviceInfo.MaxComputeUnits, out error).CastTo<uint>();
+                    string gpuName = Cl.GetDeviceInfo(gpus[j], OpenCL.NetCore.DeviceInfo.Name, out error).ToString();
+                    uint computeUnits = Cl.GetDeviceInfo(gpus[j], OpenCL.NetCore.DeviceInfo.MaxComputeUnits, out error).CastTo<uint>();
 
                     devices.Add(new ComputeDevice
                     {
