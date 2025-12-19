@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="PoCXPlotterGUI/PoCXPlotterGUI.csproj" />
   <Project Path="PoCX.Common/PoCX.Common.csproj" />
   <Project Path="PoCXMinerGUI/PoCXMinerGUI.csproj" />
+  <Project Path="PoCXPlotterGUI/PoCXPlotterGUI.csproj" />
 </Solution>

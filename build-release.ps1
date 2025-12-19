@@ -10,6 +10,7 @@ $ErrorActionPreference = "Stop"
 # Paths
 $ScriptRoot = $PSScriptRoot
 $MSBuildPaths = @(
+    "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe",
     "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe",
     "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe"
 )
@@ -17,7 +18,7 @@ $InnoSetupPaths = @(
     "C:\Program Files (x86)\Inno Setup 6\ISCC.exe",
     "C:\Program Files\Inno Setup 6\ISCC.exe"
 )
-$Solution = Join-Path $ScriptRoot "PoCXWinGUI.sln"
+$Solution = Join-Path $ScriptRoot "PoCXWinGUI.slnx"
 $VersionInfoFile = Join-Path $ScriptRoot "common\VersionInfo.cs"
 $IssFile = Join-Path $ScriptRoot "installer\PoCXFrameworkGUI.iss"
 
