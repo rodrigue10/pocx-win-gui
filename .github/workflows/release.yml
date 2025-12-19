@@ -1,0 +1,84 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'  # v1.0.0, v1.0.0-beta, v1.0.0-rc1, etc.
+
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g., v1.0.0-beta)'
+        required: true
+        default: 'v0.0.1-test'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Extract version from tag
+        id: version
+        shell: pwsh
+        run: |
+          $tag = "${{ github.event.inputs.tag || github.ref_name }}"
+          $version = $tag.TrimStart('v')
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+          echo "TAG=$tag" >> $env:GITHUB_OUTPUT
+          echo "Version: $version (from tag: $tag)"
+
+      - name: Update version in source files
+        shell: pwsh
+        run: |
+          $version = "${{ steps.version.outputs.VERSION }}"
+
+          # Update VersionInfo.cs
+          $versionFile = "common/VersionInfo.cs"
+          $content = Get-Content $versionFile -Raw
+          $content = $content -replace 'public const string Version = ".*"', "public const string Version = `"$version`""
+          Set-Content -Path $versionFile -Value $content -NoNewline
+
+          # Update .iss file
+          $issFile = "installer/PoCXFrameworkGUI.iss"
+          $content = Get-Content $issFile -Raw
+          $content = $content -replace '#define MyAppVersion ".*"', "#define MyAppVersion `"$version`""
+          Set-Content -Path $issFile -Value $content -NoNewline
+
+      - name: Restore NuGet packages
+        run: nuget restore PoCXWinGUI.sln
+
+      - name: Build solution
+        run: msbuild PoCXWinGUI.sln /p:Configuration=Release /p:Platform="Any CPU" /v:minimal
+
+      - name: Install Inno Setup
+        shell: pwsh
+        run: |
+          choco install innosetup -y --no-progress
+          echo "C:\Program Files (x86)\Inno Setup 6" >> $env:GITHUB_PATH
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer/PoCXFrameworkGUI.iss
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.TAG }}
+          name: PoCX Framework Windows GUI v${{ steps.version.outputs.VERSION }}
+          draft: true
+          prerelease: ${{ contains(steps.version.outputs.TAG, '-') }}
+          files: |
+            installer/output/PoCXFrameworkGUI-${{ steps.version.outputs.VERSION }}-Setup.exe
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

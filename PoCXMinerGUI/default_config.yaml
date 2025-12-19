@@ -1,0 +1,43 @@
+# PoCX Miner Default Configuration
+# This file contains the default settings for the PoCX Miner
+
+# Mining chains/pools configuration
+chains:
+  - name: "Example Pool"
+    base_url: "http://pool.example.com:8080"
+    api_path: "/pocx"
+    block_time_seconds: 120
+    accounts: []
+
+# Plot file directories
+plot_dirs: []
+
+# Network settings
+get_mining_info_interval: 1000  # milliseconds
+timeout: 5000                   # milliseconds
+
+# HDD settings
+hdd_use_direct_io: true
+hdd_wakeup_after: 0             # 0 = disabled
+hdd_read_cache_in_warps: 16
+
+# CPU settings
+cpu_threads: 0                  # 0 = auto-detect
+cpu_thread_pinning: true
+
+# Mining settings
+enable_on_the_fly_compression: true
+
+# Display settings
+show_progress: true
+
+# Benchmark mode (disabled, io, cpu)
+benchmark: disabled
+
+# Logging settings
+console_log_level: info
+logfile_log_level: warn
+logfile_max_count: 10
+logfile_max_size: 20            # MiB
+console_log_pattern: "{({d(%H:%M:%S)} [{l}]):16.16} {m}{n}"
+logfile_log_pattern: "{({d(%Y-%m-%d %H:%M:%S)} [{l}]):26.26} {m}{n}"
