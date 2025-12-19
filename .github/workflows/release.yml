@@ -54,10 +54,10 @@ jobs:
           Set-Content -Path $issFile -Value $content -NoNewline
 
       - name: Restore NuGet packages
-        run: nuget restore PoCXWinGUI.sln
+        run: nuget restore PoCXWinGUI.slnx
 
       - name: Build solution
-        run: msbuild PoCXWinGUI.sln /p:Configuration=Release /p:Platform="Any CPU" /v:minimal
+        run: msbuild PoCXWinGUI.slnx /p:Configuration=Release /p:Platform="Any CPU" /v:minimal
 
       - name: Install Inno Setup
         shell: pwsh
