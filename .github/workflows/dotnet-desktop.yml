@@ -37,13 +37,17 @@
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
 name: .NET Core Desktop
-
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'  # v1.0.0, v1.0.0-beta, v1.0.0-rc1, etc.
+   
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g., v1.0.0-beta)'
+        required: true
+        default: 'v0.0.1-test'
 jobs:
 
   build:
