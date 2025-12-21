@@ -75,10 +75,10 @@ jobs:
         run: dotnet publish -c Release -r win-x64 
         
       - name: Build PoCXMinerGUI.exe
-        run: dotnet publish ./PoCXMinerGUI/PoCXMinerGUI.csproj -c Release -r win-x64 --self-contained true 
+        run: dotnet publish ./PoCXMinerGUI/PoCXMinerGUI.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
       
       - name: Build PoCXPlotterGUI.exe
-        run: dotnet publish ./PoCXPlotterGUI/PoCXPlotterGUI.csproj -c Release -r win-x64 --self-contained true 
+        run: dotnet publish ./PoCXPlotterGUI/PoCXPlotterGUI.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
 
 
      # - name: Build solution
