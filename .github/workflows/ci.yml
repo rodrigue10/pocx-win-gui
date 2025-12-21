@@ -21,5 +21,10 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore PoCXWinGUI.slnx
 
-      - name: Build solution
-        run: msbuild PoCXWinGUI.slnx /p:Configuration=Release /p:Platform="Any CPU" /v:minimal
+    #  - name: Build solution
+     #   run: msbuild PoCXWinGUI.slnx /p:Configuration=Release /p:Platform="Any CPU" /v:minimal
+      
+      - name: Build project
+        # Use the 'dotnet build' command which uses the MSBuild embedded in the SDK
+       # run: dotnet build PoCXWinGUI.slnx --no-restore
+        run: dotnet publish -c Release -r win-x64 -s true   
