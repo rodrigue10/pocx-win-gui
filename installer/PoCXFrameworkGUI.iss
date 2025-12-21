@@ -6,9 +6,9 @@
 #define MyAppName "PoCX Framework Windows GUI"
 #define MyAppURL "https://github.com/PoC-Consortium/pocx"
 
-#define MinerSource "..\PoCXMinerGUI\bin\Release"
-#define PlotterSource "..\PoCXPlotterGUI\bin\Release"
-#define CommonSource "..\PoCX.Common\bin\Release"
+#define MinerSource "..\PoCXMinerGUI\bin\Release\net10.0"
+#define PlotterSource "..\PoCXPlotterGUI\bin\Release\net10.0"
+#define CommonSource "..\PoCX.Common\bin\Release\net10.0"
 
 [Setup]
 ; Unique application identifier
@@ -41,23 +41,23 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 ; Miner GUI
 Source: "{#MinerSource}\PoCXMinerGUI.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MinerSource}\PoCXMinerGUI.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#MinerSource}\PoCXMinerGUI.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 ; Note: miner config is downloaded from GitHub release to %LOCALAPPDATA%\PoCX
 
 ; Plotter GUI
 Source: "{#PlotterSource}\PoCXPlotterGUI.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#PlotterSource}\PoCXPlotterGUI.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#PlotterSource}\PoCXPlotterGUI.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Shared library
 Source: "{#CommonSource}\PoCX.Common.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NuGet dependencies (from Miner as it has the most)
-Source: "{#MinerSource}\NBitcoin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MinerSource}\Octokit.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MinerSource}\YamlDotNet.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#MinerSource}\NBitcoin.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#MinerSource}\Octokit.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#MinerSource}\YamlDotNet.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Plotter-specific dependencies
-Source: "{#PlotterSource}\OpenCL.Net.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+;Source: "{#PlotterSource}\OpenCL.Net.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 
 ; Icon
 Source: "..\pocx_icon.ico"; DestDir: "{app}"; Flags: ignoreversion
