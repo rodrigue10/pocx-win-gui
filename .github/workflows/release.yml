@@ -31,11 +31,11 @@ jobs:
           dotnet-version: 10.0.x
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-      - name: Setup MSBuild.exe
-        uses: microsoft/setup-msbuild@v2
+   #   - name: Setup MSBuild.exe
+   #     uses: microsoft/setup-msbuild@v2
 
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v2
+  #    - name: Setup NuGet
+    #    uses: NuGet/setup-nuget@v2
 
       - name: Extract version from tag
         id: version
@@ -70,7 +70,7 @@ jobs:
       - name: Build project
         # Use the 'dotnet build' command which uses the MSBuild embedded in the SDK
        # run: dotnet build PoCXWinGUI.slnx --no-restore
-        run: dotnet publish -c Release --self-contained true
+        run: dotnet publish -c Release -r win-x64 --self-contained true
       
     #  - name: Restore NuGet packages
     #    run: nuget restore PoCXWinGUI.slnx
