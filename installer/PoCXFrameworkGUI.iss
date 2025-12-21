@@ -6,8 +6,8 @@
 #define MyAppName "PoCX Framework Windows GUI"
 #define MyAppURL "https://github.com/PoC-Consortium/pocx"
 
-#define MinerSource "..\PoCXMinerGUI\bin\Release\net10.0"
-#define PlotterSource "..\PoCXPlotterGUI\bin\Release\net10.0"
+#define MinerSource "..\PoCXMinerGUI\bin\Release\net10.0-windows\win-x64\publish"
+#define PlotterSource "..\PoCXPlotterGUI\bin\Release\net10.0-windows\win-x64\publish"
 #define CommonSource "..\PoCX.Common\bin\Release\net10.0"
 
 [Setup]
