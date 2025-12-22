@@ -35,4 +35,4 @@ jobs:
       - name: Build project
         # Use the 'dotnet build' command which uses the MSBuild embedded in the SDK
        # run: dotnet build PoCXWinGUI.slnx --no-restore
-        run: dotnet publish -c Release -r win-x64 -s true   
+        run: dotnet publish -c Release -r win-x64 --self-contained true   
