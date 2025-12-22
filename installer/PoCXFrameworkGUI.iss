@@ -49,15 +49,18 @@ Source: "{#PlotterSource}\PoCXPlotterGUI.exe"; DestDir: "{app}"; Flags: ignoreve
 ;Source: "{#PlotterSource}\PoCXPlotterGUI.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Shared library
-Source: "{#CommonSource}\PoCX.Common.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Uncomment depending on self-contained/one file output
+;Source: "{#CommonSource}\PoCX.Common.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NuGet dependencies (from Miner as it has the most)
-Source: "{#MinerSource}\NBitcoin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MinerSource}\Octokit.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MinerSource}\YamlDotNet.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Uncomment depending on self-contained/one file output
+;Source: "{#MinerSource}\NBitcoin.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#MinerSource}\Octokit.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#MinerSource}\YamlDotNet.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Plotter-specific dependencies
-Source: "{#PlotterSource}\OpenCL.Net.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+; Uncomment depending on self-contained/one file output
+;Source: "{#PlotterSource}\OpenCL.Net.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 
 ; Icon
 Source: "..\pocx_icon.ico"; DestDir: "{app}"; Flags: ignoreversion
